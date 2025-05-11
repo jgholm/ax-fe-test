@@ -11,7 +11,7 @@ import type { Site } from "../types/Types";
 interface SitesProps {
   sites: Site[];
   onSiteSelect: (siteId: string) => void;
-  selectetedSiteId: string;
+  selectedSiteId: string;
 }
 
 const useSitesStyles = makeStyles({
@@ -23,8 +23,9 @@ const useSitesStyles = makeStyles({
   },
 });
 
-const Sites = ({ sites, onSiteSelect, selectetedSiteId }: SitesProps) => {
+const Sites = ({ sites, onSiteSelect, selectedSiteId }: SitesProps) => {
   const sitesStyles = useSitesStyles();
+
   return (
     <div className={sitesStyles.layout}>
       <Text size={500} weight="semibold">
@@ -32,20 +33,20 @@ const Sites = ({ sites, onSiteSelect, selectetedSiteId }: SitesProps) => {
       </Text>
       <TabList
         vertical
-        selectedValue={selectetedSiteId}
+        selectedValue={selectedSiteId}
         onTabSelect={(_, tab) => onSiteSelect(tab.value as string)}
       >
         {sites.map((site) => (
           <Tab
             key={site.id}
             icon={
-              selectetedSiteId === site.id.toString() ? (
+              selectedSiteId === site.id.toString() ? (
                 <FolderOpen16Filled />
               ) : (
                 <Folder16Filled />
               )
             }
-            value={site.id}
+            value={site.id.toString()}
           >
             {site.title}
           </Tab>

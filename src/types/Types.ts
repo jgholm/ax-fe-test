@@ -21,3 +21,9 @@ export type Site = {
     title: string;
     owner: string;
 };
+
+export type User = {
+    id: number;
+    username: string;
+    password: string;
+};
