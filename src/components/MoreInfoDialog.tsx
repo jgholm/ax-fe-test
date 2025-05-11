@@ -54,7 +54,7 @@ const MoreInfoDialog = ({ device, open, onClose }: MoreInfoDialogProps) => {
               </Card>
               <Card orientation="horizontal" appearance="subtle">
                 <CardPreview>
-                  {device.connected ? (
+                  {device.enabled ? (
                     <Checkmark20Filled
                       color={tokens.colorStatusSuccessForeground1}
                     />
