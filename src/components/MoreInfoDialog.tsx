@@ -16,9 +16,8 @@ import {
 import type { Device } from "../types/Types";
 import {
   Checkmark20Filled,
-  Cloud20Filled,
-  CloudError20Regular,
   ErrorCircle20Filled,
+  HardDrive24Filled,
 } from "@fluentui/react-icons";
 
 interface MoreInfoDialogProps {
@@ -37,37 +36,22 @@ const MoreInfoDialog = ({ device, open, onClose }: MoreInfoDialogProps) => {
             <DialogContent>
               <Card orientation="horizontal" appearance="subtle">
                 <CardHeader
-                  header={
-                    <Text weight="semibold">{device.description ?? "..."}</Text>
-                  }
-                  description={<Text size={200}>Description</Text>}
+                  header={<Text weight="semibold">Description</Text>}
+                  description={<Text size={200}>{device.description}</Text>}
                 />
               </Card>
               <Card orientation="horizontal" appearance="subtle">
                 <CardHeader
-                  header={
-                    <Text weight="semibold">{device.model ?? "..."}</Text>
-                  }
-                  description={<Text size={200}>Product model</Text>}
+                  header={<Text weight="semibold">Product model</Text>}
+                  description={<Text size={200}>{device.model}</Text>}
                 />
               </Card>
               <Card orientation="horizontal" appearance="subtle">
                 <CardHeader
-                  header={
-                    <Text weight="semibold">{device.version ?? "..."}</Text>
-                  }
-                  description={<Text size={200}>Version</Text>}
+                  header={<Text weight="semibold">Version</Text>}
+                  description={<Text size={200}>{device.version}</Text>}
                 />
               </Card>
-              <Card orientation="horizontal" appearance="subtle">
-                <CardHeader
-                  header={
-                    <Text weight="semibold">{device.version ?? "..."}</Text>
-                  }
-                  description={<Text size={200}>Version</Text>}
-                />
-              </Card>
-
               <Card orientation="horizontal" appearance="subtle">
                 <CardPreview>
                   {device.connected ? (
@@ -81,43 +65,77 @@ const MoreInfoDialog = ({ device, open, onClose }: MoreInfoDialogProps) => {
                   )}
                 </CardPreview>
                 <CardHeader
-                  header={
-                    <Text weight="semibold">
+                  header={<Text weight="semibold">Device status</Text>}
+                  description={
+                    <Text size={200}>
                       {device.enabled ? "Enabled" : "Disabled"}
                     </Text>
                   }
-                  description={<Text size={200}>Device status</Text>}
                 />
               </Card>
               <Card orientation="horizontal" appearance="subtle">
                 <CardPreview>
                   {device.connected ? (
-                    <Cloud20Filled
+                    <Checkmark20Filled
                       color={tokens.colorStatusSuccessForeground1}
                     />
                   ) : (
-                    <CloudError20Regular
+                    <ErrorCircle20Filled
                       color={tokens.colorStatusDangerForeground1}
                     />
                   )}
                 </CardPreview>
                 <CardHeader
-                  header={
-                    <Text weight="semibold">
+                  header={<Text weight="semibold">Connection status</Text>}
+                  description={
+                    <Text size={200}>
                       {device.connected ? "Connected" : "Disconnected"}
                     </Text>
                   }
-                  description={<Text size={200}>Connection status</Text>}
                 />
               </Card>
               <Card orientation="horizontal" appearance="subtle">
                 <CardHeader
-                  header={
-                    <Text weight="semibold">{device.timezone ?? "..."}</Text>
-                  }
-                  description={<Text size={200}>Timezone</Text>}
+                  header={<Text weight="semibold">Timezone</Text>}
+                  description={<Text size={200}>{device.timezone}</Text>}
                 />
               </Card>
+              {device.storages.length > 0 && (
+                <Card appearance="outline">
+                  <CardHeader
+                    header={<Text weight="semibold">Storages</Text>}
+                  />
+                  {device.storages.map((storage, key) => (
+                    <Card
+                      orientation="horizontal"
+                      appearance="subtle"
+                      key={key}
+                    >
+                      <CardPreview>
+                        <HardDrive24Filled
+                          color={
+                            storage.state === "ok"
+                              ? tokens.colorStatusSuccessForeground1
+                              : tokens.colorNeutralBackground1Hover
+                          }
+                        />
+                      </CardPreview>
+                      <CardHeader
+                        header={
+                          <Text weight="semibold">
+                            {storage.id === "SDCard"
+                              ? "SD Card"
+                              : "Network storage"}
+                          </Text>
+                        }
+                        description={
+                          <Text size={200}>Status: {storage.state}</Text>
+                        }
+                      />
+                    </Card>
+                  ))}
+                </Card>
+              )}
             </DialogContent>
             <DialogActions>
               <DialogTrigger disableButtonEnhancement>
